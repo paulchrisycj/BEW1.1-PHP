@@ -2,6 +2,11 @@
 <?php require 'check_user.php'; ?>
 <?php 
 
+if(isUser()){
+  header('Location: dashboard.php');
+  exit();
+}
+
 $selectQuery = "SELECT * FROM users";
 $result = $db->prepare($selectQuery);
 $result->execute();
@@ -32,13 +37,14 @@ $users = $result->fetchAll(PDO::FETCH_ASSOC);
             <td><?php echo $user['name']; ?></td>
             <td><?php echo $user['email']; ?></td>
             <?php 
-
-              $spanHTML = '<span class="badge bg-success">User</span>';
-              if($user['role'] == 'user'){
+              $spanHTML = '<span class="badge bg-warning">User</span>';
+              if(strtolower($user['role']) == 'user'){
                 $spanHTML = '<span class="badge bg-info">Editor</span>';
+              }else if(strtolower($user['role']) == "admin"){
+                $spanHTML = '<span class="badge bg-success">Admin</span>';
               }
             ?>
-            <td><span class="badge bg-info">Editor</span></td>
+            <td><?= $spanHTML; ?></td>
             <td class="text-end">
               <div class="buttons">
                 <a href="manage-users-edit.php?id=<?php echo $user['id']; ?>" class="btn btn-success btn-sm me-2"><i class="bi bi-pencil"></i></a>

@@ -19,6 +19,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
   if($result['password'] == $password){
     $_SESSION['email'] = $email;
+    //Do This
+    $_SESSION['user_id'] = $result['id'];
+    $_SESSION['role'] = $result['role'];
+    //Access it like this
+    // $user_id = $_SESSION['user_id'];
+    // $role = $_SESSION['role'];
+
+    //Or This
+    // $_SESSION['user'] = array(
+    //   "id"=>$result['id'],
+    //   "role"=>$result['role']
+    // );
+    //Access it like this
+    // $user_id = $_SESSION['user']['id'];
+    // $role = $_SESSION['user']['role'];
     header("Location: dashboard.php");
   }
 }

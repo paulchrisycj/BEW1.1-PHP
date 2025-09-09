@@ -1,9 +1,20 @@
 <?php require 'header.php'; ?>
 <?php
 
+$role = $_SESSION['role'];
+
 $selectQuery = "SELECT * FROM posts";
-$result = $db->prepare($selectQuery);
-$result->execute();
+
+if(isUser()){
+  $selectQuery = "SELECT * FROM posts WHERE post_by = :id";
+  $result = $db->prepare($selectQuery);
+  $result->execute(array(
+    ":id" => $_SESSION['user_id']
+  ));
+}else{
+  $result = $db->prepare($selectQuery);
+  $result->execute();
+}
 $posts = $result->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <div class="container mx-auto my-5" style="max-width: 700px;">

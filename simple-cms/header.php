@@ -2,6 +2,15 @@
 
 session_start();
 $db = new PDO("mysql:host=localhost;port=8889;dbname=simple_cms", "root", "root");
+$role = isset($_SESSION['role']) ? $_SESSION['role'] : '';
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
+
+function isUser(){
+  global $role;
+  return strtolower("User") == 'user';
+}
+
+$x = 5;
 
 ?>
 <!DOCTYPE html>

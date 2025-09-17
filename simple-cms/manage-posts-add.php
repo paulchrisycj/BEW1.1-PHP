@@ -43,7 +43,10 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
           name="long_content"
           rows="10"></textarea>
       </div>
-      <input type="hidden" name="status" value="0">
+      <select class="form-control" id="post-status" name="status">
+          <option value="0">Pending for Review</option>
+          <option value="1">Publish</option>
+      </select>
       <div class="text-end">
         <button type="submit" class="btn btn-primary">Add</button>
       </div>

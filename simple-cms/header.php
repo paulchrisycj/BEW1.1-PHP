@@ -7,10 +7,17 @@ $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
 
 function isUser(){
   global $role;
-  return strtolower("User") == 'user';
+  return strtolower($role) == 'user';
 }
 
-$x = 5;
+function isEditor(){
+  global $role;
+  return strtolower($role) == "editor";
+}
+
+function isLoggedIn(){
+  return isset($_SESSION['user_id']);
+}
 
 ?>
 <!DOCTYPE html>

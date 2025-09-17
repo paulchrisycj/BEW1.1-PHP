@@ -7,10 +7,18 @@ if(isUser()){
   exit();
 }
 
-$selectQuery = "SELECT * FROM users";
+$selectQuery = "SELECT users.*, COUNT(posts.id) AS post_count FROM users LEFT JOIN posts ON users.id = posts.post_by GROUP BY users.id";
 $result = $db->prepare($selectQuery);
 $result->execute();
 $users = $result->fetchAll(PDO::FETCH_ASSOC);
+
+// if(isEditor()){
+//   $selectQuery = "SELECT * FROM users WHERE role <> 'Admin'";
+//   $result = $db->prepare($selectQuery);
+//   $result->execute();
+//   $users = $result->fetchAll(PDO::FETCH_ASSOC);
+// }
+
 ?>
 <div class="container mx-auto my-5" style="max-width: 700px;">
   <div class="d-flex justify-content-between align-items-center mb-2">
@@ -27,6 +35,7 @@ $users = $result->fetchAll(PDO::FETCH_ASSOC);
           <th scope="col">Name</th>
           <th scope="col">Email</th>
           <th scope="col">Role</th>
+          <th scope="col">Post Count</th>
           <th scope="col" class="text-end">Actions</th>
         </tr>
       </thead>
@@ -45,10 +54,11 @@ $users = $result->fetchAll(PDO::FETCH_ASSOC);
               }
             ?>
             <td><?= $spanHTML; ?></td>
+            <td><?= $user['post_count']; ?></td>
             <td class="text-end">
               <div class="buttons">
-                <a href="manage-users-edit.php?id=<?php echo $user['id']; ?>" class="btn btn-success btn-sm me-2"><i class="bi bi-pencil"></i></a>
-                <a href="manage-users-changepwd.php?id=<?php echo $user['id']; ?>" class="btn btn-warning btn-sm me-2"><i class="bi bi-key"></i></a>
+                <a href="manage-users-edit.php?id=<?php echo $user['id']; ?>" class="btn btn-success btn-sm me-2 <?= $user['role'] == 'Admin' && isEditor() ? 'disabled' : ''; ?>"><i class="bi bi-pencil"></i></a>
+                <a href="manage-users-changepwd.php?id=<?php echo $user['id']; ?>" class="btn btn-warning btn-sm me-2 <?= $user['role'] == 'Admin' && isEditor() ? 'disabled' : ''; ?>"><i class="bi bi-key"></i></a>
                 <a href="#" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
               </div>
             </td>
